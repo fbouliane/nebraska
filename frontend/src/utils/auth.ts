@@ -11,7 +11,17 @@ export function setToken(token: string) {
 }
 
 export function getToken() {
-  return localStorage.getItem(TOKEN_KEY);
+  const token = localStorage.getItem(TOKEN_KEY);
+  if (token) {
+    return token;
+  }
+  const params = new URLSearchParams(window.location.search);
+  const param_token = params.get('id_token');
+  if (!!param_token) {
+    setToken(param_token);
+    return param_token;
+  }
+  return token;
 }
 
 interface JWT {
